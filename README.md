@@ -6,7 +6,7 @@ evita tener que copiar y pegar todas en una nueva planilla.
 
 ## Requisitos:
 
-- Generar un sheet nuevo en blanco donde se va a pegar este código, en Extensiones/Apps Script
+- Generar un Sheet nuevo en blanco donde se va a pegar este código, en Extensiones/Apps Script
 - Generar un Sheet con al menos una columna con el nombre del cliente o un identificador, y el id de su correspondiente sheet 
 en la siguiente columna.
 - El ID de Google Sheets está en la url, entre dos barras "/": 
