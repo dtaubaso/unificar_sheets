@@ -4,37 +4,59 @@
 function unificar_planillas() {
   
 // CAMBIAR
+// ID del sheet de destino, es el sheet donde se está pegando este código
+// Si la pestaña tiene otro nombre, reemplazar también el "Hoja 1"
+  var id_destino = "XXXXXXXXX";
+  var tab_destino = "Hoja 1";
+  
+// CAMBIAR
+// ID de la hoja de origen
+// Es un sheet que contiene una columna con un identificador (nombre del cliente por ejemplo)
+// y los ids de sheets que queremos copiar.
+  var id_origen = "XXXXXXXX";
+  
+// CAMBIAR
+// Nombre de la pestaña (tab) que tiene los datos que precisamos en el sheet de origen (donde esta el cliente y el id de cada sheet)
+// Por defecto es 'Hoja 1'
+  var tab_origen = "Hoja 1";
+  
+// CAMBIAR
+// Número de columna (posición) que contiene los ids de sheets que voy a utilizar.
+// Las columnas se cuentan comenzando desde 0, o sea que la columna "A" es 0, "B" es 1, etc.
+  var id_col = 1; 
+
+  
+// CAMBIAR
 // Definir los nombres de las columnas de la hoja donde se van a unificar los sheets. 
 // Cada nombre va entre comilla, separados por comas. Tienen que estar en el mismo orden que las hojas que se van a copiar.
 
   var header = [["Columna_1", "Columna_2", "Columna_3", "Columna_4"]]
   
-  // CAMBIAR
-  // Número de columna (posición) que contiene los ids de sheets que voy a utilizar.
-  // Las columnas se cuentan comenzando desde 0, o sea que la columna "A" es 0, "B" es 1, etc.
-  var id_col = 1; 
+
   
   // CAMBIAR
   // Nombre de la pestaña que tiene los datos que queremos copiar, DEBE SER EL MISMO NOMBRE EN TODOS LOS SHEETS
   var data_tab = 'Hoja 1';
   
+   // CAMBIAR
+  // El rango de datos que va a tomar desde la hoja de origen, donde están los datos que quiero copiar
+  // Si tengo 10 columnas con encabezados el rango es 'A2:J' para que no copie los encabezados
+  // (Empieza en la posición A2 y toma datos hasta la letra J)
   
-// CAMBIAR
-// ID de la hoja de origen, es un sheet que contiene una columna con un identificador (nombre del cliente por ejemplo) y el id del sheet que queremos copiar.
-  var ss = SpreadsheetApp.openById ("XXXXXXXXXXXXXXXXX"); 
+  var rango_datos = "A2:J"
   
-// CAMBIAR
-// Nombre de la pestaña (tab) que tiene los datos que precisamos, por defecto es 'Hoja 1'
-  var hoja_ids = ss.getSheetByName("Hoja 1");
+  // Comienzo del script, no hay que cambiar nada más
   
-  // CAMBIAR
-  // De qué columna a qué columna voy a tomar los datos. Si tengo solo dos columnas sin encabezado, es 'A1:B'
+  var ss = SpreadsheetApp.openById (id_origen); 
+
+  var hoja_ids = ss.getSheetByName(tab_origen);
+  
+
+  // Toma los datos de la columna de cliente y el ID de cada Sheet
   var rango_ids = hoja_ids.getRange('A1:B').getValues(); 
   
-  // CAMBIAR
-  // ID del sheet de destino, debería ser el sheet donde se está pegando este código
-  // Si la pestaña tiene otro nombre, reemplazar también el "Hoja 1"
-  var hoja_destino = SpreadsheetApp.openById ("XXXXXXXXXXXX").getSheetByName('Hoja 1');
+
+  var hoja_destino = SpreadsheetApp.openById (id_destino).getSheetByName(tab_destino);
   
  // PRECAUCIÓN: esta línea borra todo el contenido de la hoja de destino
   hoja_destino.clear(); 
@@ -52,21 +74,21 @@ try{ // para no detener la ejecucion si hay un error
 
   var hoja_origen = SpreadsheetApp.openById (array_ids[i][id_col]); // abre el sheet por ID
   
-  // CAMBIAR
-  // El rango de datos que va a tomar desde la hoja de origen, si tengo 10 columnas con encabezados el rango es 'A2:J'
-  // (Empieza en la posición A2 y toma datos hasta la letra J)
-  var rango_datos = "A2:J"
+
   var datos_origen = hoja_origen.getSheetByName(data_tab).getRange(rango_datos).getValues();
   
   datos_origen = datos_origen.filter(function(x) {
     return (x.join('').length !== 0);}); // para limpiar las celdas vacias
+    
+    
   // Agrego nombre del cliente o id de identificación en una nueva columna
   for(k=0;k<datos_origen.length; k++){
     datos_origen[k].push(array_ids[i][0])
   
   }
   
-// escribo a la hoja unificada: numero de row, numero de columna, cantidad de rows, cantidad de columnas
+// Escribo a la hoja unificada: numero de row, numero de columna, cantidad de rows, cantidad de columnas
+    
 hoja_destino.getRange(hoja_destino.getLastRow()+1,1, datos_origen.length, datos_origen[0].length).setValues(datos_origen); 
 
   }
