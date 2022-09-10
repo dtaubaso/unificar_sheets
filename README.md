@@ -11,4 +11,5 @@ evita tener que copiar y pegar todas en una nueva planilla.
 en la siguiente columna.
 - El ID de Google Sheets está en la url, entre dos barras "/": 
 por ejemplo, si la url es https://docs.google.com/spreadsheets/d/AAABBBCCC_123456/edit#gid=0, entonces "**AAABBBCCC_123456**" es el ID.
+- Los sheets que se van a unificar tienen que tener todos las mismas columnas en el mismo orden, y estar en pestañas con el mismo nombre.
 - Cambiar las variables donde corresponda en el script (están comentadas como "Cambiar"), y ejecutar.
