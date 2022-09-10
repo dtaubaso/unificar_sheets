@@ -57,9 +57,9 @@ try{ // para no detener la ejecucion si hay un error
   
   datos_origen = datos_origen.filter(function(x) {
     return (x.join('').length !== 0);}); // para limpiar las celdas vacias
-  // Agrego nombre del cliente
+  // Agrego nombre del cliente o id de identificación en una nueva columna
   for(k=0;k<datos_origen.length; k++){
-    datos_origen[k].push(...[array_ids[i][0],array_ids[i][1]])
+    datos_origen[k].push(array_ids[i][0])
   
   }
   
